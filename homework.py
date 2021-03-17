@@ -33,9 +33,12 @@ def parse_homework_status(homework):
         verdict = 'К сожалению в работе нашлись ошибки.'
     elif homework_status == 'reviewing':
         verdict = 'Работу проверяют'
-    else:
+    elif homework_status == 'approved':
         verdict = ('Ревьюеру всё понравилось, можно '
                    'приступать к следующему уроку.')
+    else:
+        logger.error('Неизвестный статус домашнего задания')
+        return f'{homework_status} - эээ...(пускает слюни)'
     return f'У вас проверили работу "{homework_name}"!\n\n{verdict}'
 
 
@@ -43,6 +46,8 @@ def get_homework_statuses(current_timestamp):
     headers = {
         'Authorization': f'OAuth {PRAKTIKUM_TOKEN}',
     }
+    current_timestamp = int(time.time()) if current_timestamp is None \
+        else current_timestamp
     params = {
         'from_date': current_timestamp,
     }
@@ -78,7 +83,7 @@ def main():
             time.sleep(300)
 
         except Exception as e:
-            print(f'Бот столкнулся с ошибкой: {e}')
+            logger.error(f'Бот столкнулся с ошибкой: {e}')
             time.sleep(5)
 
 

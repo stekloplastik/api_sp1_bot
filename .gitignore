@@ -23,3 +23,4 @@ posts/static/
 media/
 
 db.sqlite3
+bot.log
