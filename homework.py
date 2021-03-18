@@ -1,11 +1,11 @@
+import logging
 import os
 import time
-import logging
+from logging.handlers import RotatingFileHandler
 
 import requests
-from telegram import Bot
 from dotenv import load_dotenv
-from logging.handlers import RotatingFileHandler
+from telegram import Bot
 
 load_dotenv()
 
@@ -46,8 +46,7 @@ def get_homework_statuses(current_timestamp):
     headers = {
         'Authorization': f'OAuth {PRAKTIKUM_TOKEN}',
     }
-    current_timestamp = int(time.time()) if current_timestamp is None \
-        else current_timestamp
+    current_timestamp = current_timestamp or int(time.time())
     params = {
         'from_date': current_timestamp,
     }
